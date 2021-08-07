@@ -1,7 +1,7 @@
 import os
 import logging
 import json
-import numpy
+import pandas as pd
 import joblib
 
 
@@ -27,8 +27,21 @@ def run(raw_data):
     method and return the result back
     """
     logging.info("Request received")
-    data = json.loads(raw_data)["data"]
-    data = numpy.array(data)
-    result = model.predict(data)
-    logging.info("Request processed")
-    return result.tolist()
+    try:
+        data = json.loads(raw_data)['data']
+        test_data = {
+            'gamename':  [data[0]],
+            'publisher': [data[1]],
+            'developer': [data[2]],
+            'tag_common': [data[3]],
+            'multi': [data[4]],
+            'genre_common': [data[5]],
+            'plat_count': [data[6]],
+        }
+        test_df = pd.DataFrame (test_data, columns = ['gamename','publisher','developer','tag_common','multi','genre_common','plat_count'])
+        result = model.predict(test_df)
+        logging.info("Request processed")
+        return {'data' : result.tolist() , 'message' : "Successfully predicted!"}
+    except Exception as e:
+           error = str(e)
+           return {'data' : str(data) + error , 'message' : 'Failed to predict...'}
