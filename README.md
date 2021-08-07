@@ -30,7 +30,7 @@ There is a large amount of data on the performance of past released games, which
 ### What has been done?
 * Processed the data and created the final aggregated dataset
 * Created and evaluated a regression model with okay result (R2 value close to 0)
-* Trying to deploy model and work on web app
+* Model is deployed, working on webapp
 
 ### Anything else to note?
 Data sources:
