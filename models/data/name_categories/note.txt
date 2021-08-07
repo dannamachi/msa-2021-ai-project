@@ -1,1 +1,0 @@
-Download dataset from https://www.kaggle.com/nikdavis/steam-store-games and unzip here
