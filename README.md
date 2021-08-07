@@ -27,4 +27,8 @@ AI Project Submission for Bootcamp 2 - MSA 2021
 how to use them>
 
 ### Anything else to note?
-<references, other docs if any>
+Data sources:
+* https://www.kaggle.com/michau96/popularity-of-games-on-steam
+* https://www.kaggle.com/trolukovich/steam-games-complete-dataset
+* https://www.kaggle.com/nikdavis/steam-store-games
+* https://www.kaggle.com/jesneuman/pc-games
