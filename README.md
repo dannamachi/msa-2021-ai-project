@@ -31,7 +31,7 @@ There is a large amount of data on the performance of past released games, which
 * Processed the data and created the final aggregated dataset
 * Created and evaluated a regression model with okay result (R2 value close to 0)
 * Model is deployed as an endpoint on Azure
-* Webapp that uses the endpoint is created, working on deployment
+* Webapp that uses the endpoint is created & deployed with Azure App Service: https://play-estimator.azurewebsites.net/
 
 ### Anything else to note?
 Data sources:
