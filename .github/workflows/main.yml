@@ -56,7 +56,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.PERS_TOKEN }}
         with:
-          source-directory: 'public'
+          source-directory: 'webapp'
           destination-github-username: 'dannamachi'
           destination-repository-name: 'msa-2021-ai-project-webapp'
           user-email: serenita15@gmail.com
