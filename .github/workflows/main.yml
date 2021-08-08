@@ -48,7 +48,7 @@ jobs:
         with:
           name: python-app
           path: |
-            . 
+            webapp/
             !venv/
 
       # Push to repo connected to azure
@@ -57,7 +57,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.PERS_TOKEN }}
         with:
-          source-directory: './'
+          source-directory: 'webapp'
           destination-github-username: 'dannamachi'
           destination-repository-name: 'msa-2021-ai-project-webapp'
           user-email: serenita15@gmail.com
