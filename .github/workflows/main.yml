@@ -9,6 +9,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./webapp
     steps:
       # Check out repo
       - uses: actions/checkout@v2
@@ -22,9 +25,6 @@ jobs:
         run: |
           git config --local user.email "serenita15@gmail.com"
           git config --local user.name "dannamachi"
-          git submodule init
-          git submodule update
-          cd webapp/
           
       # Set up python
       - name: Set up Python version
@@ -57,7 +57,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.PERS_TOKEN }}
         with:
-          source-directory: 'webapp'
+          source-directory: './'
           destination-github-username: 'dannamachi'
           destination-repository-name: 'msa-2021-ai-project-webapp'
           user-email: serenita15@gmail.com
