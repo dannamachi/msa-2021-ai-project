@@ -16,7 +16,6 @@ jobs:
       # Check out repo
       - uses: actions/checkout@v2
         with:
-          submodules: true  # Fetch Hugo themes (true OR recursive)
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
         
@@ -25,31 +24,6 @@ jobs:
         run: |
           git config --local user.email "serenita15@gmail.com"
           git config --local user.name "dannamachi"
-          
-      # Set up python
-      - name: Set up Python version
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.8'
-
-      # Set up python env
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-      
-      # Install dependencies
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      # Upload artifact for deployment
-      - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v2
-        with:
-          name: python-app
-          path: |
-            webapp/
-            !venv/
 
       # Push to repo connected to azure
       - name: Pushes to another repository
