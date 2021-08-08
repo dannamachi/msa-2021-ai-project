@@ -1,0 +1,63 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - main  # Set a branch to deploy
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      # Check out repo
+      - uses: actions/checkout@v2
+        with:
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+        
+      # Set up git config and submodule
+      - name: Set git config & submodule
+        run: |
+          git config --local user.email "serenita15@gmail.com"
+          git config --local user.name "dannamachi"
+          git submodule init
+          git submodule update
+          
+      # Set up python
+      - name: Set up Python version
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+
+      # Set up python env
+      - name: Create and start virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+      
+      # Install dependencies
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Upload artifact for deployment
+      - name: Upload artifact for deployment jobs
+        uses: actions/upload-artifact@v2
+        with:
+          name: python-app
+          path: |
+            . 
+            !venv/
+
+      # Push to repo connected to azure
+      - name: Pushes to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.PERS_TOKEN }}
+        with:
+          source-directory: 'public'
+          destination-github-username: 'dannamachi'
+          destination-repository-name: 'msa-2021-ai-project-webapp'
+          user-email: serenita15@gmail.com
+          target-branch: main
