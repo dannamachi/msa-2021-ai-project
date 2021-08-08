@@ -23,25 +23,28 @@
                     <textarea id="gamename" name="gamename" cols="8" rows="3" class="form-control"></textarea>
                 </div>
 
+                <input type="hidden" id="devInputType" name="devInputType" value="1">
                 <button type='button' id="devbutton" onclick="toggleInput('dev')">select developer</button>
                 <div class="form-group" id="devdiv1">
                     <label for="developer1">Developer:</label>
-                    <textarea id="developer1" name="developer" rows="1" class="form-control"></textarea>
+                    <textarea id="developer1" name="developer1" rows="1" class="form-control"></textarea>
                 </div>
                 <div class="form-group" id="devdiv2">
                     <label for="developer2">Developer:</label>
-                    <select id="developer2" name="developer" class="form-control">
+                    <select id="developer2" name="developer2" class="form-control">
                         
                     </select>
                 </div>
+
+                <input type="hidden" id="pubInputType" name="pubInputType" value="1">
                 <button type='button' id="pubbutton" onclick="toggleInput('pub')">select publisher</button>
                 <div class="form-group" id="pubdiv1">
                     <label for="publisher1">Publisher:</label>
-                    <textarea type="text" id="publisher1" name="publisher" rows="1" class="form-control"></textarea>
+                    <textarea type="text" id="publisher1" name="publisher1" rows="1" class="form-control"></textarea>
                 </div>
                 <div class="form-group" id="pubdiv2">
                     <label for="publisher2">Publisher:</label>
-                    <select id="publisher2" name="publisher" class="form-control">
+                    <select id="publisher2" name="publisher2" class="form-control">
                         
                     </select>
                 </div>
@@ -62,11 +65,17 @@
                     <input type="number" id="platcount" name="platcount"> 
                 </div>
 
+                <div class="alert alert-warning" role="alert" id='alertblock'>
+                    Something went wrong, please try again later.
+                </div>
                 <div>
                     <button type="submit" class="btn btn-success">Predict!</button>
                 </div>
             </form>
             <style>
+                #alertblock {
+                    display: none
+                }
                 #leftblock {
                     margin: auto;
                     text-align: center;
@@ -94,6 +103,7 @@
                 // pass it into the parse function
                   developerList = JSON.parse({{ developerList | tojson }})
                   publisherList = JSON.parse({{ publisherList | tojson }})
+                  showAlert = JSON.parse({{ showAlert | tojson }})
 
                   function toggleInput(key) {
                     var keynoun = (key == 'dev' ? 'developer' : 'publisher');
@@ -101,18 +111,30 @@
                     // toggle magic here
                     var devdiv1 = document.getElementById(`${key}div1`);
                     var devdiv2 = document.getElementById(`${key}div2`);
+                    var inputType = document.getElementById(`${key}InputType`)
                     if (devdiv1.style.display == 'none') {
                         devdiv1.style.display = 'block'
                         devdiv2.style.display = 'none'
                         devbutton.innerHTML = `select a ${keynoun}`;
+                        inputType.value = 1
                     } else {
                         devdiv1.style.display = 'none'
                         devdiv2.style.display = 'block'
                         devbutton.innerHTML = `${keynoun} not found`;
+                        inputType.value = 2
                     }
                   }
 
                   function loadSelectOptions() {
+                    // show/hide alert box
+                    var alertmsg = document.getElementById('alertblock')
+                    if (showAlert) {
+                        alertmsg.style.display = 'block'
+                    } else {
+                        alertmsg.style.display = 'none'
+                    }
+
+                    // fill in select options for dev & pub
                     var devselect = document.getElementById("developer2")
                     for (var dev in developerList) {
                         devselect.innerHTML += `<option value="${developerList[dev]}">${developerList[dev]}</option>`
